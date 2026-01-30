@@ -9,8 +9,8 @@ export const Main = () => {
 
 
   return (
-    <main className="w-full pt-2 flex flex-col items-center gap-5 h-svh dark:text-gray-300">
-      <div className="flex md:px-5 justify-between text-xs md:text-lg w-full font-semibold">
+    <main className="w-full pt-2 flex flex-col items-center gap-5 h-svh dark:text-gray-500">
+      <div className="flex md:px-5 px-2 justify-between text-sm md:text-lg w-full font-bold font-mono">
         <div className="flex gap-5 flex-row ">
           <a href="https://github.com/srenV"><Github/></a>
           <a href="https://www.linkedin.com/in/soren-timo-voigt/"><Linkedin/></a>
@@ -51,21 +51,21 @@ export const Main = () => {
             className=" p-2 text-lg md:text-2xl rounded-3xl w-full placeholder:font-bold placeholder:font-mono resize-none field-sizing-content outline-none"
           />
 
-          <div className="items-center flex gap-5 md:gap-10 w-full justify-between">
+          <div className="items-center flex gap-5 px-2 md:px-0 md:gap-10 w-full justify-between">
             <button onClick={() => handleDeleteChecked()}><TrashIcon/></button>
-            <div className="items-center flex gap-10 ">
+            <div className="items-center flex gap-3 md:gap-10 ">
               <select
                 name="filter"
                 id="filter"
-                className="text-end hover:dark:bg-gray-600 hover:rounded-md p-0.5"
+                className="text-end md:hover:dark:bg-gray-600 open:bg-gray-600 hover:rounded-md open:rounded-md p-0.5"
                 onChange={(e) => handleFilter(e.target.value)}
               >
                 <option value="all">All</option>
-                <option value="checked">Checked</option>
+                <option value="checked">Done</option>
               </select>
-              <button type="submit" className="">
+              <motion.button type="submit" className="" whileTap={{ rotate: 90}} whileHover={{scale: 1.1}}>
                 <DiamondPlus className="scale-130" />
-              </button>
+              </motion.button>
             </div>
           </div>
         </form>
@@ -83,7 +83,8 @@ export const Main = () => {
               >
                 <li className="flex justify-between ">
                   <div className="flex items-center gap-5">
-                    <button
+                    <motion.button
+                      whileTap={{y: -5, scale: 1.2}}
                       className={``}
                       onClick={() => handleChecked(item.id)}
                     >
@@ -92,12 +93,12 @@ export const Main = () => {
                       ) : (
                         <Badge className="scale-130" />
                       )}
-                    </button>
-                    <p>{item.text}</p>
+                    </motion.button>
+                    <p className="text-gray-300">{item.text}</p>
                   </div>
-                  <button className="" onClick={() => handleDelete(item.id)}>
+                  <motion.button className="" onClick={() => handleDelete(item.id) } whileTap={{y: -5, scale: 1.2}}>
                     <Trash2 className="scale-130" />
-                  </button>
+                  </motion.button>
                 </li>
               </motion.div>
             ))}
