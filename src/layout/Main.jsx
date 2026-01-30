@@ -32,9 +32,9 @@ export const Main = () => {
 
       <div className=" h-full w-full md:w-9/10 p-2 md:p-5 rounded-2xl flex flex-col-reverse items-center gap-5 md:gap-10 overflow-y-scroll ">
         <form
-          className={`${list < 1 ? "md:-translate-y-[50svh] w-full md:w-200" : "md:translate-y-0 w-full"} 
+          className={`${list < 1 ? "md:-translate-y-[41svh] y-auto w-full md:w-200" : "md:translate-y-0 w-full"} 
           transition-all ease-in-out duration-500 flex flex-col gap-2 md:gap-5 z-10 justify-center items-center
-           bg-gray-200 dark:bg-gray-800  p-2 md:p-10 rounded-lg md:rounded-4xl shadow-lg border-b-4 border-gray-300 dark:border-gray-700`}
+           bg-gray-200 dark:bg-gray-800/80  p-2 md:p-10 rounded-lg md:rounded-4xl shadow-lg border-b-4 border-gray-300 dark:border-gray-700`}
           action=""
           onSubmit={(e) => {
             (e.preventDefault(), handleAdd(text));
