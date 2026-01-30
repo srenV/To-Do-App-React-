@@ -10,6 +10,7 @@ export const Main = () => {
 
   return (
     <main className="w-full pt-2 flex flex-col items-center gap-5 h-svh dark:text-gray-500">
+      <BadgeCheck className="absolute my-auto mx-auto inset-0 scale-1000 text-gray-200/10" />
       <div className="flex md:px-5 px-2 justify-between text-sm md:text-lg w-full font-bold font-mono">
         <div className="flex gap-5 flex-row ">
           <a href="https://github.com/srenV"><Github/></a>
