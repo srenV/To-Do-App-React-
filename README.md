@@ -2,6 +2,8 @@
 
 A modern, responsive todo application built with React and Tailwind CSS. Manage your tasks with a beautiful user interface, intelligent filters, and smooth animations.
 
+[Live site:](https://todo-srenv.vercel.app/)
+
 ## ✨ Features
 
 - ✅ **Create Tasks** - Add new todos with simple input

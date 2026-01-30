@@ -51,7 +51,7 @@ export const Main = () => {
             className=" p-2 text-lg md:text-2xl rounded-3xl w-full placeholder:font-bold placeholder:font-mono resize-none field-sizing-content outline-none"
           />
 
-          <div className="items-center flex gap-10 w-full justify-between">
+          <div className="items-center flex gap-5 md:gap-10 w-full justify-between">
             <button onClick={() => handleDeleteChecked()}><TrashIcon/></button>
             <div className="items-center flex gap-10 ">
               <select
@@ -62,7 +62,6 @@ export const Main = () => {
               >
                 <option value="all">All</option>
                 <option value="checked">Checked</option>
-                <option value="deleted">Deleted</option>
               </select>
               <button type="submit" className="">
                 <DiamondPlus className="scale-130" />
