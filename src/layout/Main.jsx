@@ -1,20 +1,47 @@
 import React from "react";
 import { AnimatePresence, motion, spring } from "framer-motion";
 import TodoContext, { useTodoContext } from "../context/TodoContext";
-import { Badge, BadgeCheck, DiamondPlus, Github, Linkedin, Trash2, TrashIcon, Upload } from "lucide-react";
+import {
+  Badge,
+  BadgeCheck,
+  Check,
+  DiamondPlus,
+  Edit,
+  Github,
+  Linkedin,
+  Trash2,
+  TrashIcon,
+  Upload,
+} from "lucide-react";
 
 export const Main = () => {
-  const { text, setText, handleAdd, handleDelete, handleChecked, list, handleFilter, filtered, handleDeleteChecked, handleKeyDown } =
-    useTodoContext();
-
+  const {
+    text,
+    setText,
+    handleAdd,
+    handleDelete,
+    handleChecked,
+    list,
+    handleFilter,
+    filtered,
+    handleDeleteChecked,
+    handleKeyDown,
+    handleEdit,
+    editBool,
+    setEditBool,
+  } = useTodoContext();
 
   return (
     <main className="w-full pt-2 flex flex-col items-center gap-5 h-svh dark:text-gray-500">
       <BadgeCheck className="absolute my-auto mx-auto inset-0 scale-1000 text-gray-200/10" />
       <div className="flex md:px-5 px-2 justify-between text-sm md:text-lg w-full font-bold font-mono">
         <div className="flex gap-5 flex-row ">
-          <a href="https://github.com/srenV"><Github/></a>
-          <a href="https://www.linkedin.com/in/soren-timo-voigt/"><Linkedin/></a>
+          <a href="https://github.com/srenV">
+            <Github />
+          </a>
+          <a href="https://www.linkedin.com/in/soren-timo-voigt/">
+            <Linkedin />
+          </a>
         </div>
         <div></div>
         <div className="flex gap-5 flex-row">
@@ -53,7 +80,9 @@ export const Main = () => {
           />
 
           <div className="items-center flex gap-5 px-2 md:px-0 md:gap-10 w-full justify-between">
-            <button onClick={() => handleDeleteChecked()}><TrashIcon/></button>
+            <button onClick={() => handleDeleteChecked()}>
+              <TrashIcon />
+            </button>
             <div className="items-center flex gap-3 md:gap-10 ">
               <select
                 name="filter"
@@ -64,7 +93,12 @@ export const Main = () => {
                 <option value="all">All</option>
                 <option value="checked">Done</option>
               </select>
-              <motion.button type="submit" className="" whileTap={{ rotate: 90}} whileHover={{scale: 1.1}}>
+              <motion.button
+                type="submit"
+                className=""
+                whileTap={{ rotate: 90 }}
+                whileHover={{ scale: 1.1 }}
+              >
                 <DiamondPlus className="scale-130" />
               </motion.button>
             </div>
@@ -79,13 +113,17 @@ export const Main = () => {
                 initial={{ opacity: 0, x: 200 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -300 }}
-                transition={{ duration: 0.7, type: spring, bounce: 0.3, delay:0.4}}
-                
+                transition={{
+                  duration: 0.7,
+                  type: spring,
+                  bounce: 0.3,
+                  delay: 0.4,
+                }}
               >
-                <li className="flex justify-between ">
-                  <div className="flex items-center gap-5">
+                <li className="flex justify-between gap-5">
+                  <div className="flex items-center gap-5 w-full">
                     <motion.button
-                      whileTap={{y: -5, scale: 1.2}}
+                      whileTap={{ y: -5, scale: 1.2 }}
                       className={``}
                       onClick={() => handleChecked(item.id)}
                     >
@@ -95,11 +133,35 @@ export const Main = () => {
                         <Badge className="scale-130" />
                       )}
                     </motion.button>
-                    <p className="text-gray-300">{item.text}</p>
+                    <p
+                      className="text-gray-300 w-full md:p-1 rounded-lg"
+                      contentEditable={editBool}
+                      suppressContentEditableWarning
+                      onKeyDown={(e) =>
+                        handleEdit(e, item.id, e.currentTarget.textContent)
+                      }
+                      onBlur={(e) =>
+                        handleEdit(e, item.id, e.currentTarget.textContent)
+                      }
+                    >
+                      {item.text}
+                    </p>
                   </div>
-                  <motion.button className="" onClick={() => handleDelete(item.id) } whileTap={{y: -5, scale: 1.2}}>
-                    <Trash2 className="scale-130" />
-                  </motion.button>
+                  <div className="flex gap-5 items-center">
+                    <motion.button
+                      onClick={() => setEditBool(true)}
+                      whileTap={{ y: -5, scale: 1.2 }}
+                    >
+                      <Edit className={`scale-130 `} />
+                    </motion.button>
+                    <motion.button
+                      className=""
+                      onClick={() => handleDelete(item.id)}
+                      whileTap={{ y: -5, scale: 1.2 }}
+                    >
+                      <Trash2 className="scale-130" />
+                    </motion.button>
+                  </div>
                 </li>
               </motion.div>
             ))}

@@ -6,13 +6,14 @@ export function TodoProvider({ children }) {
   const [text, setText] = useState("");
   const [filtered, setFiltered] = useState([]);
   const [filterValue, setFilterValue] = useState("all");
+  const [editBool, setEditBool] = useState(false);
   const [list, setList] = useState(() => {
-    try{
+    try {
       //try to retrieve data from LS, if there is not Data we return a empty array
-      const saved = localStorage.getItem("Notes")
-      return saved ? JSON.parse(saved) : []
-    }catch{
-      return []
+      const saved = localStorage.getItem("Notes");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
     }
   });
 
@@ -33,8 +34,6 @@ export function TodoProvider({ children }) {
     }
   }, [list, filterValue]);
 
-  
-  
   //Just to pass the selected value to setFilterValue
   function handleFilter(value) {
     setFilterValue(value);
@@ -50,6 +49,26 @@ export function TodoProvider({ children }) {
     // - checked - (a boolean to keep track of completed todo's)
     setList([...list, { id: Date.now(), text: text, checked: false }]);
     setText("");
+  }
+
+  function handleEdit(e, id, newText) {
+    //defensive statement to ensure stability
+    if (id === undefined || id === null) return;
+    //prevents empty list entrys
+    if (newText === "") return;
+    // handle Enter key press
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      e.currentTarget.blur(); // set the blur event on the entry to save it if the enter key is pressed
+      setList(list.map((listItem) =>listItem.id === id ? { ...listItem, text: newText } : listItem,),);
+      setEditBool(false);
+    }
+    // handle blur event (when clicking outside or after Enter)
+    // the blur event is called if the entry gets out of focus by tipping tab, enter or clicking outside of it
+    else if (e.type === "blur") {
+      setList(list.map((listItem) =>listItem.id === id ? { ...listItem, text: newText } : listItem,),);
+      setEditBool(false);
+    }
   }
 
   function handleDelete(id) {
@@ -86,9 +105,6 @@ export function TodoProvider({ children }) {
     }
   }
 
-
-  
-
   //helper for enhanced readability in the context-provider
   const value = {
     text,
@@ -103,6 +119,9 @@ export function TodoProvider({ children }) {
     filterValue,
     handleDeleteChecked,
     handleKeyDown,
+    handleEdit,
+    editBool,
+    setEditBool,
   };
 
   //returns the provider with all the given values to make the data accessible through the entire app

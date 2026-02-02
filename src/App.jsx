@@ -18,8 +18,8 @@ function App() {
         <AnimatePresence>
           {!pageLoaded && (
             <motion.div
-              initial={{ opacity: 0}}
-              animate={{ opacity: 1}}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 bg-[#F2F0EF] dark:bg-gray-950 z-50 w-svw h-svh"
             >
