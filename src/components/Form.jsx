@@ -12,13 +12,19 @@ export const Form = () => {
     handleFilter,
     handleDeleteChecked,
     handleKeyDown,
+    created,
+    deleted, 
+    restored
   } = useTodoContext();
 
   return (
     <form
       className={`${list < 1 ? "md:-translate-y-[41svh] y-auto w-full md:w-200" : "md:translate-y-0 w-full"} 
           transition-all ease-in-out duration-500 flex flex-col gap-2 md:gap-5 z-10 justify-center items-center
-           bg-gray-200 dark:bg-gray-800/80  p-2 md:p-10 rounded-lg md:rounded-4xl shadow-lg border-b-4 border-gray-300 dark:border-gray-700`}
+           bg-gray-200 dark:bg-gray-800/80  p-2 md:p-10 rounded-lg md:rounded-4xl shadow-xs border-b-4 border-gray-300 dark:border-gray-700
+           ${restored && "dark:border-yellow-400/75 border-yellow-400/75 shadow-yellow-500 "} 
+           ${deleted && "dark:border-red-400/75 border-red-400/75 shadow-red-500 "} 
+           ${created && "dark:border-green-400/75 border-green-400/75 shadow-green-600 "}`}
       action=""
       onSubmit={(e) => {
         (e.preventDefault(), handleAdd(text));
