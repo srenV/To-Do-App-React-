@@ -1,10 +1,15 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
 
 const TodoContext = createContext(null);
 
 export function TodoProvider({ children }) {
   const [text, setText] = useState("");
-  const [filtered, setFiltered] = useState([]);
   const [filterValue, setFilterValue] = useState("all");
   const [editBool, setEditBool] = useState(false);
   const [created, setCreated] = useState(false);
@@ -25,21 +30,17 @@ export function TodoProvider({ children }) {
     localStorage.setItem("Notes", JSON.stringify(list));
   }, [list]);
 
-  //executes every time when list or filterValue changes
-  useEffect(() => {
-    //to show all entries
-    if (filterValue === "all") {
-      const targetAll = filterValue === "all";
-      setFiltered(list.filter((item) => item.softDel !== targetAll));
-    } else if (filterValue === "checked") {
-      //sets filterValue to the selected value and filters the entries with it
-      const targetChecked = filterValue === "checked";
-      setFiltered(
-        list.filter((item) => item.checked && !item.softDel === targetChecked),
-      );
-    } else if (filterValue === "deleted") {
-      const targetSoftDel = filterValue === "deleted";
-      setFiltered(list.filter((item) => item.softDel === targetSoftDel));
+  //calculates filtered list based on filterValue - recalculates only when list or filterValue changes
+  const filtered = useMemo(() => {
+    switch (filterValue) {
+      case "all":
+        return list.filter((item) => !item.softDel);
+      case "checked":
+        return list.filter((item) => item.checked && !item.softDel);
+      case "deleted":
+        return list.filter((item) => item.softDel);
+      default:
+        return list;
     }
   }, [list, filterValue]);
 
