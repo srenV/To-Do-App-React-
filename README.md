@@ -6,9 +6,9 @@ A modern, responsive todo application built with React and Tailwind CSS. Manage 
 
 ## 📸 Screenshots
 
-<div align="center">
-  <img src="public/screenshot1.png" alt="Desktop View" width="600"/>
-  <img src="public/screenshot2.png" alt="Mobile View" height="400"/>
+<div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+  <img src="public/screenshot1.png" alt="Desktop View" width="600" />
+  <img src="public/screenshot2.png" alt="Mobile View" height="400" />
 </div>
 
 ## ✨ Features
