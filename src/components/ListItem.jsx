@@ -1,14 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Badge, BadgeCheck, Trash2 } from "lucide-react";
+import { ArchiveRestore, Badge, BadgeCheck, Trash2 } from "lucide-react";
 import { useTodoContext } from "../context/TodoContext";
 
 export const ListItem = ({ item }) => {
-  const { handleDelete, handleChecked, handleEdit, editBool, setEditBool } =
+  const { handleDelete, handleChecked, handleEdit, editBool, setEditBool, filterValue, handleRestore } =
     useTodoContext();
 
   return (
-    <li className="flex justify-between gap-5">
+    <li className="flex justify-between gap-5 z-10">
       <div className="flex items-center gap-5 w-full">
         <motion.button
           whileTap={{ y: -5, scale: 1.2 }}
@@ -22,7 +22,7 @@ export const ListItem = ({ item }) => {
           )}
         </motion.button>
         <p
-          className={`text-gray-300 w-full md:p-1 rounded-lg ${editBool && "outline-2 outline-amber-300"}`}
+          className={`text-gray-300 w-full md:p-1 rounded-lg`}
           contentEditable={editBool}
           suppressContentEditableWarning
           onClick={() => setEditBool(true)}
@@ -33,6 +33,10 @@ export const ListItem = ({ item }) => {
         </p>
       </div>
       <div className="flex gap-5 items-center ">
+        {filterValue === 'deleted' && 
+        <motion.button onClick={() => handleRestore(item.id)}>
+            <ArchiveRestore />
+            </motion.button>}
         <motion.button
           className=""
           onClick={() => handleDelete(item.id)}

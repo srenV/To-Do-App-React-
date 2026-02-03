@@ -7,6 +7,9 @@ export function TodoProvider({ children }) {
   const [filtered, setFiltered] = useState([]);
   const [filterValue, setFilterValue] = useState("all");
   const [editBool, setEditBool] = useState(false);
+  const [created, setCreated] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+  const [restored, setRestored] = useState(false);
   const [list, setList] = useState(() => {
     try {
       //try to retrieve data from LS, if there is no Data we return an empty array
@@ -26,12 +29,14 @@ export function TodoProvider({ children }) {
   useEffect(() => {
     //to show all entries
     if (filterValue === "all") {
-      const targetSoftDel = filterValue === "all";
-      setFiltered(list.filter((item) => item.softDel !== targetSoftDel));
+      const targetAll = filterValue === "all";
+      setFiltered(list.filter((item) => item.softDel !== targetAll));
     } else if (filterValue === "checked") {
       //sets filterValue to the selected value and filters the entries with it
       const targetChecked = filterValue === "checked";
-      setFiltered(list.filter((item) => item.checked === targetChecked));
+      setFiltered(
+        list.filter((item) => item.checked && !item.softDel === targetChecked),
+      );
     } else if (filterValue === "deleted") {
       const targetSoftDel = filterValue === "deleted";
       setFiltered(list.filter((item) => item.softDel === targetSoftDel));
@@ -44,7 +49,7 @@ export function TodoProvider({ children }) {
   }
 
   function handleAdd(text) {
-    //defensive statement to prevent empty entrys
+    //defensive statement to prevent empty entries
     if (!text) return;
     //creates a copy of the list with the spread operator, then adds a new entry
     // list entries consist of:
@@ -56,6 +61,12 @@ export function TodoProvider({ children }) {
       { id: Date.now(), text: text, checked: false, softDel: false },
     ]);
     setText("");
+
+    //trigger visual feedback for entry creation
+    setCreated(true);
+    setTimeout(() => {
+      setCreated(false);
+    }, 2000);
   }
 
   function handleEdit(e, id, newText) {
@@ -66,7 +77,7 @@ export function TodoProvider({ children }) {
     // handle Enter key press
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      e.currentTarget.blur(); // set the blur event on the entry to save it if the enter key is pressed
+      e.currentTarget.blur(); // trigger the blur event on the entry to save it if the enter key is pressed
       setList(
         list.map((listItem) =>
           listItem.id === id ? { ...listItem, text: newText } : listItem,
@@ -75,7 +86,7 @@ export function TodoProvider({ children }) {
       setEditBool(false);
     }
     // handle blur event (when clicking outside or after Enter)
-    // the blur event is called if the entry gets out of focus by tipping tab, enter or clicking outside of it
+    // the blur event is called if the entry gets out of focus by typing tab, enter or clicking outside of it
     else if (e.type === "blur") {
       setList(
         list.map((listItem) =>
@@ -86,11 +97,12 @@ export function TodoProvider({ children }) {
     }
   }
 
+  //handles soft and hard deletions
   function handleDelete(id) {
     //defensive statement to ensure stability
     if (id === undefined || id === null) return;
     const item = list.find((itm) => itm.id === id);
-    //first perform a soft delete, if softDel is true and the function gets called again delete the entry complete
+    //first perform a soft delete, if softDel is already true and the function gets called again delete the entry completely
     if (item && item.softDel === false) {
       setList(
         list.map((itm) => (itm.id === id ? { ...itm, softDel: true } : itm)),
@@ -99,14 +111,36 @@ export function TodoProvider({ children }) {
       //checks each entry in list, returns a copy of the array without the searched id
       setList(list.filter((item) => item.id !== id));
     }
+    //trigger visual feedback for entry deletion
+    setDeleted(true);
+    setTimeout(() => {
+      setDeleted(false);
+    }, 2000);
+  }
+
+  //handles a restore functionality to bring back soft deleted entries
+  function handleRestore(id) {
+    //defensive statement to ensure stability
+    if (id === undefined || id === null) return;
+    //maps through the list and set softDel back to false
+    setList(
+      list.map((itm) => (itm.id === id ? { ...itm, softDel: false } : itm)),
+    );
+    //trigger visual feedback for entry restore
+    setRestored(true);
+    setTimeout(() => {
+      setRestored(false);
+    }, 2000);
   }
 
   function handleDeleteChecked() {
-    //checks each entry in list, returns a copy of the array with only unchecked entries
+    //checks each entry in list, filters out checked entries
     //completely deletes the entry if the current filter is set to deleted otherwise perform a soft delete
     if (filterValue === "deleted") {
+      //hard delete
       setList(list.filter((item) => item.id && item.checked !== true));
     } else {
+      //soft delete
       setList(
         list.map((itm) => (itm.checked ? { ...itm, softDel: true } : itm)),
       );
@@ -152,6 +186,10 @@ export function TodoProvider({ children }) {
     handleEdit,
     editBool,
     setEditBool,
+    handleRestore,
+    created,
+    deleted,
+    restored,
   };
 
   //returns the provider with all the given values to make the data accessible through the entire app
