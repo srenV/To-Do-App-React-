@@ -70,7 +70,7 @@ export const Main = () => {
         >
           <textarea
             type="text"
-            placeholder="Do something!"
+            placeholder="Remind me to..."
             value={text}
             onKeyDown={handleKeyDown}
             spellCheck
@@ -80,8 +80,9 @@ export const Main = () => {
           />
 
           <div className="items-center flex gap-5 px-2 md:px-0 md:gap-10 w-full justify-between">
-            <button onClick={() => handleDeleteChecked()}>
-              <TrashIcon />
+            <button onClick={() => handleDeleteChecked()}
+              className="flex items-center gap-3 font-bold">
+              <TrashIcon /> Delete selected
             </button>
             <div className="items-center flex gap-3 md:gap-10 ">
               <select
@@ -92,6 +93,7 @@ export const Main = () => {
               >
                 <option value="all">All</option>
                 <option value="checked">Done</option>
+                <option value="deleted">Deleted</option>
               </select>
               <motion.button
                 type="submit"
@@ -134,9 +136,10 @@ export const Main = () => {
                       )}
                     </motion.button>
                     <p
-                      className="text-gray-300 w-full md:p-1 rounded-lg"
+                      className={`text-gray-300 w-full md:p-1 rounded-lg ${editBool && "outline-2 outline-amber-300"}`}
                       contentEditable={editBool}
                       suppressContentEditableWarning
+                      onClick={() => setEditBool(true)}
                       onKeyDown={(e) =>
                         handleEdit(e, item.id, e.currentTarget.textContent)
                       }
@@ -147,19 +150,13 @@ export const Main = () => {
                       {item.text}
                     </p>
                   </div>
-                  <div className="flex gap-5 items-center">
-                    <motion.button
-                      onClick={() => setEditBool(true)}
-                      whileTap={{ y: -5, scale: 1.2 }}
-                    >
-                      <Edit className={`scale-130 `} />
-                    </motion.button>
+                  <div className="flex gap-5 items-center ">
                     <motion.button
                       className=""
                       onClick={() => handleDelete(item.id)}
                       whileTap={{ y: -5, scale: 1.2 }}
                     >
-                      <Trash2 className="scale-130" />
+                      <Trash2 className="scale-130" /> 
                     </motion.button>
                   </div>
                 </li>

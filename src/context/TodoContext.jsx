@@ -9,7 +9,7 @@ export function TodoProvider({ children }) {
   const [editBool, setEditBool] = useState(false);
   const [list, setList] = useState(() => {
     try {
-      //try to retrieve data from LS, if there is not Data we return a empty array
+      //try to retrieve data from LS, if there is no Data we return an empty array
       const saved = localStorage.getItem("Notes");
       return saved ? JSON.parse(saved) : [];
     } catch {
@@ -24,13 +24,17 @@ export function TodoProvider({ children }) {
 
   //executes every time when list or filterValue changes
   useEffect(() => {
-    //to show all entrys
+    //to show all entries
     if (filterValue === "all") {
-      setFiltered(list);
-    } else {
-      //sets filterValue to the selected value and filters the entrys with it
+      const targetSoftDel = filterValue === "all";
+      setFiltered(list.filter((item) => item.softDel !== targetSoftDel));
+    } else if (filterValue === "checked") {
+      //sets filterValue to the selected value and filters the entries with it
       const targetChecked = filterValue === "checked";
       setFiltered(list.filter((item) => item.checked === targetChecked));
+    } else if (filterValue === "deleted") {
+      const targetSoftDel = filterValue === "deleted";
+      setFiltered(list.filter((item) => item.softDel === targetSoftDel));
     }
   }, [list, filterValue]);
 
@@ -43,30 +47,41 @@ export function TodoProvider({ children }) {
     //defensive statement to prevent empty entrys
     if (!text) return;
     //creates a copy of the list with the spread operator, then adds a new entry
-    // list entrys consists of:
+    // list entries consist of:
     // - id - (represented by the timestamp of creation),
     // - text - (the value entered by the user),
     // - checked - (a boolean to keep track of completed todo's)
-    setList([...list, { id: Date.now(), text: text, checked: false }]);
+    setList([
+      ...list,
+      { id: Date.now(), text: text, checked: false, softDel: false },
+    ]);
     setText("");
   }
 
   function handleEdit(e, id, newText) {
     //defensive statement to ensure stability
     if (id === undefined || id === null) return;
-    //prevents empty list entrys
+    //prevents empty list entries
     if (newText === "") return;
     // handle Enter key press
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       e.currentTarget.blur(); // set the blur event on the entry to save it if the enter key is pressed
-      setList(list.map((listItem) =>listItem.id === id ? { ...listItem, text: newText } : listItem,),);
+      setList(
+        list.map((listItem) =>
+          listItem.id === id ? { ...listItem, text: newText } : listItem,
+        ),
+      );
       setEditBool(false);
     }
     // handle blur event (when clicking outside or after Enter)
     // the blur event is called if the entry gets out of focus by tipping tab, enter or clicking outside of it
     else if (e.type === "blur") {
-      setList(list.map((listItem) =>listItem.id === id ? { ...listItem, text: newText } : listItem,),);
+      setList(
+        list.map((listItem) =>
+          listItem.id === id ? { ...listItem, text: newText } : listItem,
+        ),
+      );
       setEditBool(false);
     }
   }
@@ -74,19 +89,34 @@ export function TodoProvider({ children }) {
   function handleDelete(id) {
     //defensive statement to ensure stability
     if (id === undefined || id === null) return;
-    //checks each entry in list, returns a copy of the array without the searched id
-    setList(list.filter((item) => item.id !== id));
+    const item = list.find((itm) => itm.id === id);
+    //first perform a soft delete, if softDel is true and the function gets called again delete the entry complete
+    if (item && item.softDel === false) {
+      setList(
+        list.map((itm) => (itm.id === id ? { ...itm, softDel: true } : itm)),
+      );
+    } else {
+      //checks each entry in list, returns a copy of the array without the searched id
+      setList(list.filter((item) => item.id !== id));
+    }
   }
 
   function handleDeleteChecked() {
-    //checks each entry in list, returns a copy of the array with only unchecked entrys
-    setList(list.filter((item) => item.id && item.checked !== true));
+    //checks each entry in list, returns a copy of the array with only unchecked entries
+    //completely deletes the entry if the current filter is set to deleted otherwise perform a soft delete
+    if (filterValue === "deleted") {
+      setList(list.filter((item) => item.id && item.checked !== true));
+    } else {
+      setList(
+        list.map((itm) => (itm.checked ? { ...itm, softDel: true } : itm)),
+      );
+    }
   }
 
   function handleChecked(id) {
     //defensive statement to ensure stability
     if (id === undefined || id === null) return;
-    //maps through every entry in list and seaches fort the matching id
+    //maps through every entry in list and searches for the matching id
     //then just reverse its boolean value
     setList(
       list.map((item) =>
