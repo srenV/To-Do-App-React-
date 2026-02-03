@@ -4,12 +4,8 @@ A modern, responsive todo application built with React and Tailwind CSS. Manage 
 
 [Live site](https://todo-srenv.vercel.app/)
 
-## 📸 Screenshots
-
-<div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
-  <img src="public/screenshot1.png" alt="Desktop View" width="600" />
-  <img src="public/screenshot2.png" alt="Mobile View" height="400" />
-</div>
+## 📸 Screenshot
+![Desktop View](public/screenshot2.png)
 
 ## ✨ Features
 
