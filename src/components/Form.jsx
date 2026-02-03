@@ -32,7 +32,7 @@ export const Form = () => {
     >
       <textarea
         type="text"
-        placeholder="Remind me to..."
+        placeholder="Got something to do?"
         value={text}
         onKeyDown={handleKeyDown}
         spellCheck
