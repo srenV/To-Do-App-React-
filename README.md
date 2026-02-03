@@ -4,18 +4,22 @@ A modern, responsive todo application built with React and Tailwind CSS. Manage 
 
 [Live site](https://todo-srenv.vercel.app/)
 
-## 📸 Screenshot
+## 📸 Screenshots
 
-![Todo App Desktop Screenshot](public/screenshot2.png)
+<div align="center">
+  <img src="public/screenshot1.png" alt="Desktop View" width="600"/>
+  <img src="public/screenshot2.png" alt="Mobile View" height="400"/>
+</div>
 
 ## ✨ Features
 
 - ✅ **Create Tasks** - Add new todos with simple input
 - 🎯 **Check Tasks** - Mark completed todos and track progress
-- 🗑️ **Delete Tasks** - Remove unwanted entries
-- 🔍 **Smart Filters** - Filter by "All", "Completed", and "Uncompleted"
+- 🗑️ **Delete Tasks** - Soft delete with option to permanently remove
+- 🔍 **Smart Filters** - Filter by "All", "Done", and "Deleted"
 - 🎬 **Smooth Animations** - Fluid transitions with Framer Motion
 - 📱 **Responsive Design** - Perfect on all devices (Mobile, Tablet, Desktop)
+- 💾 **Persistent Storage** - Todos saved in localStorage
 - 💾 **Global State Management** - Context API for centralized data management
 
 ## 🛠️ Tech Stack
@@ -62,10 +66,16 @@ npm run dev
 ```
 src/
 ├── components/       # Reusable components
+│   ├── Form.jsx     # Todo input form with filters
+│   └── ListItem.jsx # Individual todo item
 ├── context/         # TodoContext for state management
-├── layout/          # Main layout components (Header, Main, Footer)
+│   └── TodoContext.jsx
+├── layout/          # Layout components
+│   ├── Header.jsx   # Social links and legal navigation
+│   └── Main.jsx     # Main app layout
 ├── assets/          # Images and static files
 ├── App.jsx          # Main App component
+├── index.css        # Global styles
 └── main.jsx         # Entry point
 ```
 
