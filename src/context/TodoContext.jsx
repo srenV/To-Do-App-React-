@@ -66,7 +66,7 @@ export function TodoProvider({ children }) {
     setCreated(true);
     setTimeout(() => {
       setCreated(false);
-    }, 2000);
+    }, 1250);
   }
 
   function handleEdit(e, id, newText) {
@@ -115,7 +115,7 @@ export function TodoProvider({ children }) {
     setDeleted(true);
     setTimeout(() => {
       setDeleted(false);
-    }, 2000);
+    }, 1250);
   }
 
   //handles a restore functionality to bring back soft deleted entries
@@ -130,7 +130,7 @@ export function TodoProvider({ children }) {
     setRestored(true);
     setTimeout(() => {
       setRestored(false);
-    }, 2000);
+    }, 1250);
   }
 
   function handleDeleteChecked() {
@@ -145,6 +145,10 @@ export function TodoProvider({ children }) {
         list.map((itm) => (itm.checked ? { ...itm, softDel: true } : itm)),
       );
     }
+    setDeleted(true);
+    setTimeout(() => {
+      setDeleted(false);
+    }, 1250);
   }
 
   function handleChecked(id) {
