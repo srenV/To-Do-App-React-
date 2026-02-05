@@ -4,10 +4,10 @@ A modern, responsive todo application built with React and Tailwind CSS. Manage 
 
 [Live site](https://todo-srenv.vercel.app/)
 
-## 📸 Screenshot
+##  Screenshot
 ![Desktop View](public/screenshot2.png)
 
-## ✨ Features
+##  Features
 
 - ✅ **Create Tasks** - Add new todos with simple input
 - 🎯 **Check Tasks** - Mark completed todos and track progress
@@ -18,7 +18,7 @@ A modern, responsive todo application built with React and Tailwind CSS. Manage 
 - 💾 **Persistent Storage** - Todos saved in localStorage
 - 💾 **Global State Management** - Context API for centralized data management
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **React** - UI Library
 - **Vite** - Lightning-fast build tool
@@ -27,7 +27,7 @@ A modern, responsive todo application built with React and Tailwind CSS. Manage 
 - **Lucide React** - Icon Library
 - **Context API** - State Management
 
-## 📦 Installation
+## Installation
 
 1. Clone the repository:
 
@@ -50,14 +50,14 @@ npm run dev
 
 4. Open browser: `http://localhost:5173`
 
-## 🚀 Usage
+##  Usage
 
 1. **Add Todo** - Enter text and click the plus button
 2. **Complete Todo** - Click the badge icon to mark as completed
 3. **Delete Todo** - Click the trash icon
 4. **Filter** - Use the dropdown menu to filter todos
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 src/
@@ -75,20 +75,20 @@ src/
 └── main.jsx         # Entry point
 ```
 
-## 🎨 State Management
+##  State Management
 
 The app uses React Context API for global state management:
 
 - **TodoProvider** - Central provider for all todo data
 - **useTodoContext** - Hook for accessing context data
 
-## 🔗 Links
+##  Links
 
 - [GitHub](https://github.com/srenV)
 - [LinkedIn](https://www.linkedin.com/in/soren-timo-voigt/)
 - [Portfolio](https://srenv.vercel.app/)
 
-## 📄 Legal
+##  Legal
 
 See [Impressum](https://srenv.vercel.app/impressum) and [Privacy Policy](https://srenv.vercel.app/legal)
 
